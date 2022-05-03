@@ -10,6 +10,26 @@ namespace NextMindBackEnd.Repositories
         {
             this.context = context;
         }
+
+        public async Task<User> login(string userName)
+        {
+            try
+            {
+                var user = await (from u in context.Users where u.UserName == userName
+                           select u).FirstOrDefaultAsync<User>();
+                if( user!= null)
+                {
+                    return user;
+                }
+                throw new LoginRequestException("User not found");
+
+            }
+            catch (Exception ex)
+            {
+                throw new LoginRequestException(ex.Message);
+            }
+        }
+
         public async Task<User> register(User user)
         {
             try

@@ -21,7 +21,7 @@ namespace NextMindBackEnd.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegisterResponse>> Register([FromBody]RegisterRequest request)
+        public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest request)
         {
             try
             {
@@ -36,30 +36,39 @@ namespace NextMindBackEnd.Controllers
                 return BadRequest(error);
             }
 
-            
+
         }
-
-        //[HttpPost("login")]
-        //public async Task<ActionResult<string>> Login(UserDto request)
-        //{
-        //    if(user.UserName != request.UserName)
-        //    {
-        //        return BadRequest("User not found");
-        //    }
-
-        //    if (VerifyPasswordHash(request.Password,user.PasswordHash,user.PasswordSalt))
-        //    {
-        //        return BadRequest("Wrong password");
-        //    }
-
-        //    string token = CreateToken(user);
-
-        //    return Ok("Token");
-        //}
-
-
-
-
+        [HttpPost("login")]
+        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
+        {
+            try
+            {
+                LoginResponse response = await authService.Login(request);
+                return Ok(response);
+            }
+            catch (LoginException ex)
+            {
+                LoginResponse error = new LoginResponse();
+                error.Message = ex.Message;
+                error.Code = 400;
+                return BadRequest(error);
+            }
+        }
+        [HttpGet, Route("login/{token}")]
+        public async Task<ActionResult<LoginWithTokenResponse>> LoginWithToken(string token)
+        {
+            try
+            {
+                LoginWithTokenResponse response = await authService.LoginWithToken(token);
+                return Ok(response);
+            }catch (LoginException ex)
+            {
+                LoginWithTokenResponse error = new LoginWithTokenResponse();
+                error.Messag = ex.Message;
+                error.Code = 400;
+                return BadRequest(error);
+            }
+        }
 
     }
 }
