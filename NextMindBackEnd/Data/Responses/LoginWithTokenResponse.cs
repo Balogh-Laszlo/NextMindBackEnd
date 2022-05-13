@@ -4,6 +4,6 @@
     {
         public string? UserName { get; set; }
         public int Code { get; set; }
-        public string Messag { get; set; }
+        public string Messag { get; set; } = string.Empty;
     }
 }

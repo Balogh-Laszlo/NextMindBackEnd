@@ -21,8 +21,9 @@ namespace NextMindBackEnd.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest request)
+        public async Task<ActionResult<RegisterResponse>> Register([FromForm]RegisterRequest request)
         {
+            Console.WriteLine(request.UserName);
             try
             {
                 RegisterResponse response = await authService.Register(request);
@@ -39,7 +40,7 @@ namespace NextMindBackEnd.Controllers
 
         }
         [HttpPost("login")]
-        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
+        public async Task<ActionResult<LoginResponse>> Login([FromForm] LoginRequest request)
         {
             try
             {
