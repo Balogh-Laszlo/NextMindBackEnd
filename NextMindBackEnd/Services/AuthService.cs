@@ -25,9 +25,9 @@ namespace NextMindBackEnd.Services
         {
             if(request.Password != request.ConfirmPassword)
             {
-                throw new RegisterException("The two password are not the same");
+                throw new RegisterException("The two passwords are not the same");
             }
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            TokenMethods.Instance.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User user = new User()
             {
                 UserName = request.UserName,
@@ -57,9 +57,9 @@ namespace NextMindBackEnd.Services
             try
             {
                 var repoResponse = await authRepository.login(request.UserName);
-                if (VerifyPasswordHash(request.Password, repoResponse.PasswordHash, repoResponse.PasswordSalt))
+                if (TokenMethods.Instance.VerifyPasswordHash(request.Password, repoResponse.PasswordHash, repoResponse.PasswordSalt))
                 {
-                    response.Token = CreateToken(repoResponse);
+                    response.Token = TokenMethods.Instance.CreateToken(repoResponse);
                     response.Code= 200;
                     response.Message = "Success";
                     response.UserName = repoResponse.UserName;
@@ -77,7 +77,7 @@ namespace NextMindBackEnd.Services
         public async Task<LoginWithTokenResponse> LoginWithToken(string token)
         {
             var response = new LoginWithTokenResponse();
-            var tokenData = ValidateToken(token);
+            var tokenData = TokenMethods.Instance.ValidateToken(token);
             if(tokenData != null)
             {
                 response.UserName = tokenData.UserName;
@@ -90,78 +90,7 @@ namespace NextMindBackEnd.Services
 
 
 
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
-        }
-        private string CreateToken(User user)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim("UserId", user.Id.ToString())
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Constants.secretKey));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(30),
-                signingCredentials: creds);
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
-        }
-
-        private TokenData? ValidateToken(string token)
-        {
-            TokenData tokenData = new TokenData();
-            if (token == null)
-                return null;
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(Constants.secretKey);
-            try
-            {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-                    ClockSkew = TimeSpan.Zero
-                }, out SecurityToken validatedToken);
-
-                var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "UserId").Value);
-                var userName = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
-
-                tokenData.UserName = userName;
-                tokenData.Id = userId;
-                // return user id from JWT token if validation successful
-                return tokenData;
-            }
-            catch
-            {
-                // return null if validation fails
-                return null;
-            }
-        } 
+        
 
 
 
