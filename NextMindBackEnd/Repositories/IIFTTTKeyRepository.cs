@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace NextMindBackEnd.Repositories
 {
-    public interface IIFTTTKeyRepository
+    public interface IIftttKeyRepository
     {
-        public Task<List<IFTTTKey>> GetKeys(int Id);
+        public Task<List<IftttKey>> GetKeys(int Id);
         public Task<int> AddKey(string key, int Id);
     }
 }

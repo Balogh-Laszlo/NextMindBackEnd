@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NextMindBackEnd.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class RemoteController8 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "IFTTTKeys",
+                name: "IftttKeys",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -45,8 +45,7 @@ namespace NextMindBackEnd.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     URL = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IFTTTKeyId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    IFTTTKeyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,14 +53,9 @@ namespace NextMindBackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Controls_IFTTTKeys_IFTTTKeyId",
                         column: x => x.IFTTTKeyId,
-                        principalTable: "IFTTTKeys",
+                        principalTable: "IftttKeys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Controls_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -131,12 +125,7 @@ namespace NextMindBackEnd.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Controls_IFTTTKeyId",
                 table: "Controls",
-                column: "IFTTTKeyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Controls_UserId",
-                table: "Controls",
-                column: "UserId");
+                column: "IftttKeyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PageControls_PageID",
@@ -166,7 +155,7 @@ namespace NextMindBackEnd.Migrations
                 name: "Pages");
 
             migrationBuilder.DropTable(
-                name: "IFTTTKeys");
+                name: "IftttKeys");
 
             migrationBuilder.DropTable(
                 name: "RemoteControllers");

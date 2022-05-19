@@ -10,10 +10,10 @@ namespace NextMindBackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IFTTTKeyController : ControllerBase
+    public class IftttKeyController : ControllerBase
     {
-        private readonly IIFTTTKeyService service;
-        public IFTTTKeyController(IIFTTTKeyService service)
+        private readonly IIftttKeyService service;
+        public IftttKeyController(IIftttKeyService service)
         {
             this.service = service;
         }

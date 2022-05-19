@@ -10,7 +10,7 @@ namespace NextMindBackEnd.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
         public DbSet<User> Users { get; set; }
-        public DbSet<IFTTTKey> IFTTTKeys { get; set; }
+        public DbSet<IftttKey> IftttKeys { get; set; }
         public DbSet<Control> Controls { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<RemoteController> RemoteControllers { get; set; }

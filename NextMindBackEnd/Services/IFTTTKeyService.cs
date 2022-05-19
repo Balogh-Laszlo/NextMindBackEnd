@@ -5,10 +5,10 @@ using NextMindBackEnd.Utils;
 
 namespace NextMindBackEnd.Services
 {
-    public class IFTTTKeyService : IIFTTTKeyService
+    public class IftttKeyService : IIftttKeyService
     {
-        private readonly IIFTTTKeyRepository repo;
-        public IFTTTKeyService(IIFTTTKeyRepository repo)
+        private readonly IIftttKeyRepository repo;
+        public IftttKeyService(IIftttKeyRepository repo)
         {
             this.repo = repo;
         }

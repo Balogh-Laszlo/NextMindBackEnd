@@ -12,8 +12,8 @@ using NextMindBackEnd.Data;
 namespace NextMindBackEnd.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220517160313_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220519144719_RemoteController10")]
+    partial class RemoteController10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,7 +32,7 @@ namespace NextMindBackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("IFTTTKeyId")
+                    b.Property<int>("IftttKeyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -43,19 +43,14 @@ namespace NextMindBackEnd.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("IFTTTKeyId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("IftttKeyId");
 
                     b.ToTable("Controls");
                 });
 
-            modelBuilder.Entity("NextMindBackEnd.Data.Models.IFTTTKey", b =>
+            modelBuilder.Entity("NextMindBackEnd.Data.Models.IftttKey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,7 +64,7 @@ namespace NextMindBackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IFTTTKeys");
+                    b.ToTable("IftttKeys");
                 });
 
             modelBuilder.Entity("NextMindBackEnd.Data.Models.Page", b =>
@@ -157,17 +152,13 @@ namespace NextMindBackEnd.Migrations
 
             modelBuilder.Entity("NextMindBackEnd.Data.Models.Control", b =>
                 {
-                    b.HasOne("NextMindBackEnd.Data.Models.IFTTTKey", "IFTTTKey")
+                    b.HasOne("NextMindBackEnd.Data.Models.IftttKey", "IftttKey")
                         .WithMany("Controls")
-                        .HasForeignKey("IFTTTKeyId")
+                        .HasForeignKey("IftttKeyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NextMindBackEnd.Models.User", null)
-                        .WithMany("controls")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("IFTTTKey");
+                    b.Navigation("IftttKey");
                 });
 
             modelBuilder.Entity("NextMindBackEnd.Data.Models.Page", b =>
@@ -216,7 +207,7 @@ namespace NextMindBackEnd.Migrations
                     b.Navigation("PageControls");
                 });
 
-            modelBuilder.Entity("NextMindBackEnd.Data.Models.IFTTTKey", b =>
+            modelBuilder.Entity("NextMindBackEnd.Data.Models.IftttKey", b =>
                 {
                     b.Navigation("Controls");
                 });
@@ -234,8 +225,6 @@ namespace NextMindBackEnd.Migrations
             modelBuilder.Entity("NextMindBackEnd.Models.User", b =>
                 {
                     b.Navigation("Controllers");
-
-                    b.Navigation("controls");
                 });
 #pragma warning restore 612, 618
         }

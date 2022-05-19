@@ -36,8 +36,6 @@ namespace NextMindBackEnd.Controllers
                 error.Code = 400;
                 return BadRequest(error);
             }
-
-
         }
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponse>> Login([FromForm] LoginRequest request)

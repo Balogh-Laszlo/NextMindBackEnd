@@ -15,7 +15,6 @@ namespace NextMindBackEnd.Models
         public byte[] PasswordHash { get; set; }
         [Required]
         public byte[] PasswordSalt { get; set; }
-        public ICollection<Control> controls { get; set; }
         public ICollection<RemoteController> Controllers { get; set; }
     }
 }

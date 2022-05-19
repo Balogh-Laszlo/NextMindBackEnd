@@ -17,10 +17,17 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IAuthRepository, AuthRepository>();
 
-//IFTTTKey
-builder.Services.AddTransient<IIFTTTKeyService, IFTTTKeyService>();
-builder.Services.AddTransient<IIFTTTKeyRepository, IFTTTKeyRepository>();
+//IftttKey
+builder.Services.AddTransient<IIftttKeyService, IftttKeyService>();
+builder.Services.AddTransient<IIftttKeyRepository, IftttKeyRepository>();
 
+//RemoteController
+builder.Services.AddTransient<IRemoteControlService, RemoteControlService>();
+builder.Services.AddTransient<IRemoteControlRepository, RemoteControlRepository>();
+
+//Control
+builder.Services.AddTransient<IControlRepository, ControlRepository>();
+builder.Services.AddTransient<IControlService, ControlService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

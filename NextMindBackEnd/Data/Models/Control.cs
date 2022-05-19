@@ -13,6 +13,8 @@ namespace NextMindBackEnd.Data.Models
         [Required]
         public string URL { get; set; } = string.Empty;
         public ICollection<PageControl> PageControls { get; set; }
-        public IFTTTKey IFTTTKey { get; set; }
+        [Required]
+        public IftttKey IftttKey { get; set; }
+        public int IftttKeyId { get; set; }
     }
 }

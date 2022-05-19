@@ -4,10 +4,10 @@ using System.Collections;
 
 namespace NextMindBackEnd.Repositories
 {
-    public class IFTTTKeyRepository : IIFTTTKeyRepository
+    public class IftttKeyRepository : IIftttKeyRepository
     {
         private readonly DataContext context;
-        public IFTTTKeyRepository(DataContext context)
+        public IftttKeyRepository(DataContext context)
         {
             this.context = context;
         }
@@ -16,7 +16,7 @@ namespace NextMindBackEnd.Repositories
         {
             try
             {
-                var result = await context.IFTTTKeys.AddAsync(new IFTTTKey() { Key = key});
+                var result = await context.IftttKeys.AddAsync(new IftttKey() { Key = key});
                 var res = result.Entity.Id;
                 if (Save())
                 {
@@ -29,13 +29,13 @@ namespace NextMindBackEnd.Repositories
             }
         }
 
-        public async Task<List<IFTTTKey>> GetKeys(int Id)
+        public async Task<List<IftttKey>> GetKeys(int Id)
         {
             try
             {
                 var remoteControllers = await context.RemoteControllers.Where(u => u.User.Id == Id).Select(s => s.Id).ToListAsync();
                 var pages = await context.Pages.Where(p => remoteControllers.Contains(p.RemoteController.Id)).Select(s => s.Id).ToListAsync();
-                var keys = await context.PageControls.Where(p => pages.Contains(p.PageID)).Select(s => s.Control.IFTTTKey).ToListAsync();
+                var keys = await context.PageControls.Where(p => pages.Contains(p.PageID)).Select(s => s.Control.IftttKey).ToListAsync();
                 return keys;
             }catch (Exception ex)
             {
