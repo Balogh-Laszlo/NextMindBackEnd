@@ -6,5 +6,6 @@ namespace NextMindBackEnd.Services
     public interface IRemoteControlService
     {
         public Task<AddControllerResponse> AddController(AddControllerRequest request);
+        public Task<GetRemoteControllersResponse> GetControllers(string token);
     }
 }

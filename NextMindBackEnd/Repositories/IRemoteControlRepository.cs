@@ -6,5 +6,6 @@ namespace NextMindBackEnd.Repositories
     public interface IRemoteControlRepository
     {
         public Task<ControllerDataToClient?> AddController(AddControllerRequest request, int? UserId);
+        public Task<List<ControllerDataToClient>> GetControllers(int? UserId);
     }
 }

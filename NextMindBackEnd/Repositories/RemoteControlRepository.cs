@@ -99,6 +99,56 @@ namespace NextMindBackEnd.Repositories
             }
 
         }
+        public async Task<List<ControllerDataToClient>> GetControllers(int? UserId)
+        {
+            var result = new List<ControllerDataToClient>();
+            var remoteControllers = await context.RemoteControllers.Where(r => r.User.Id == UserId).ToListAsync();
+            foreach (var remoteController in remoteControllers)
+            {
+                var pages = new List<PageToClient>();
+                var p = await context.Pages.Where(p=> p.RemoteController.Id == remoteController.Id).ToListAsync();      
+                foreach(var _page in p)
+                {
+                    var controls = await context.PageControls.Where(p => p.PageID==_page.Id).ToListAsync();
+                    var controlsToClient = new List<ControlToClient>();
+                    foreach(var control in controls)
+                    {
+                        var c = await context.Controls.FindAsync(control.ControlID);
+                        if (c != null)
+                        {
+                            var ifttt = await context.IftttKeys.FindAsync(c.IftttKeyId);
+                            if (ifttt != null)
+                            {
+                                controlsToClient.Add(new ControlToClient()
+                                {
+                                    Id = c.Id,
+                                    Name = c.Name,
+                                    URL = c.URL,
+                                    IFTTTKey = ifttt.Key
+                                });
+                            }
+                        }
+                       
+                    }
+                    pages.Add(new PageToClient()
+                    {
+                        Id = _page.Id,
+                        Index = _page.Index,
+                        Controls = controlsToClient
+                    });
+
+                    
+                }
+                result.Add(new ControllerDataToClient()
+                {
+                    Id = remoteController.Id,
+                    Name = remoteController.Name,
+                    Pages = pages
+                });
+           
+            }
+            return result;
+        }
 
         private async Task addToPageControl(int id1, int id2, Control control, Page page)
         {
@@ -209,5 +259,7 @@ namespace NextMindBackEnd.Repositories
             var save = await context.SaveChangesAsync();
             return save > 0 ? true : false;
         }
+
+
     }
 }

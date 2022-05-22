@@ -31,6 +31,22 @@ namespace NextMindBackEnd.Controllers
                 response.Code = ex.Code;
                 return BadRequest(response);
             }
-        } 
+        }
+        [HttpPost("getControllers")]
+        public async Task<ActionResult<GetRemoteControllersResponse>> GetControllers([FromForm]string Token)
+        {
+            var response = new GetRemoteControllersResponse();
+            try
+            {
+                response = await service.GetControllers(Token);
+                return Ok(response);
+            }catch(GetRemoteControllersException ex)
+            {
+                response.Code=ex.Code;
+                response.Message=ex.Message;
+                return BadRequest(response);
+            }
+            
+        }
     }
 }

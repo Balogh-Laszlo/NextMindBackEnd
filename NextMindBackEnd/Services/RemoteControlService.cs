@@ -41,5 +41,27 @@ namespace NextMindBackEnd.Services
                 return response;
             }
         }
+
+        public async Task<GetRemoteControllersResponse> GetControllers(string token)
+        {
+            var UserId = TokenMethods.Instance.ValidateToken(token)?.Id;
+            if (UserId == null || UserId < 1)
+            {
+                throw new GetRemoteControllersException("Invalid Token", 301);
+            }
+            var response = new GetRemoteControllersResponse();
+            try
+            {
+                response.RemoteControllers = await remoteControlRepository.GetControllers(UserId);
+                response.Code = 200;
+                response.Message = "Success";
+                return response;
+            }catch (GetRemoteControllersException ex)
+            {
+                response.Code = ex.Code;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
     }
 }
