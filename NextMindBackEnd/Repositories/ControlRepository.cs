@@ -64,7 +64,7 @@ namespace NextMindBackEnd.Repositories
                         var iftttkey = await context.IftttKeys.FindAsync(control.IftttKeyId);
                         if (iftttkey != null)
                         {
-                            controlToClient.IFTTTKey = iftttkey.Key;
+                            controlToClient.IFTTTKey = new Key() { Id = iftttkey.Id, iftttKey = iftttkey.Key };
                         }
                     
                     //controlToClient.IftttKey = control.IftttKey.Key;

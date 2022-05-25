@@ -37,7 +37,7 @@ namespace NextMindBackEnd.Services
                 var response = new AddControllerResponse();
                 response.Code = ex.Code;
                 response.Message = ex.Message;
-                response.Controller = null;
+                response.Controller = new Data.Models.ControllerDataToClient();
                 return response;
             }
         }

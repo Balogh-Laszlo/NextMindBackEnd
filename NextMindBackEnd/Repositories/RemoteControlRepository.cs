@@ -73,7 +73,7 @@ namespace NextMindBackEnd.Repositories
                         }
                         controls.Add(con);
 
-                        controlToClient.IFTTTKey = key.Key;
+                        controlToClient.IFTTTKey = new Key() { Id = key.Id, iftttKey = key.Key};
                         controlToClient.URL = con.URL;
                         controlToClient.Name = con.Name;
                         controlToClient.Id = con.Id;
@@ -124,7 +124,7 @@ namespace NextMindBackEnd.Repositories
                                     Id = c.Id,
                                     Name = c.Name,
                                     URL = c.URL,
-                                    IFTTTKey = ifttt.Key
+                                    IFTTTKey = new Key() { Id = ifttt.Id, iftttKey = ifttt.Key }
                                 });
                             }
                         }
@@ -229,13 +229,17 @@ namespace NextMindBackEnd.Repositories
         private async Task<IftttKey> findKey(int? iFTTTKeyID)
         {
 
-            //var key = await context.IftttKeys.FindAsync(iFTTTKeyID);
-            //Console.WriteLine(key.Id);
-            //if (key != null)
-            //{
-            //    return key;
-            //}
-            throw new AddKeyException("IftttKey not found", 304);
+            var key = await context.IftttKeys.FindAsync(iFTTTKeyID);
+            Console.WriteLine(key.Id);
+            if (key != null)
+            {
+                return key;
+            }
+            else
+            {
+                throw new AddKeyException("IftttKey not found", 304);
+            }
+
         }
 
         private async Task<IftttKey> addIFTTTKey(string? iFTTTKey)

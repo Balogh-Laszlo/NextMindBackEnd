@@ -29,6 +29,7 @@ namespace NextMindBackEnd.Controllers
             {
                 response.Message=ex.Message;
                 response.Code = ex.Code;
+                response.Controller = new Data.Models.ControllerDataToClient();
                 return BadRequest(response);
             }
         }

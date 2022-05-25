@@ -1,4 +1,5 @@
 ﻿using NextMindBackEnd.Data.Exceptions;
+using NextMindBackEnd.Data.Models;
 using NextMindBackEnd.Data.Responses;
 using NextMindBackEnd.Repositories;
 using NextMindBackEnd.Utils;
@@ -73,12 +74,12 @@ namespace NextMindBackEnd.Services
                 {
                     response.Code = 200;
                     response.Message = "Success";
-                    var keys = new List<string>();
+                    var keys = new List<Key>();
                     foreach(var r in repoResponse)
                     {
-                        keys.Add(r.Key);
+                        keys.Add(new Key() { Id = r.Id, iftttKey = r.Key });
                     }
-                    response.Keys = keys;
+                    response.Keys = keys ;
                 }
                 else
                 {

@@ -33,10 +33,18 @@ namespace NextMindBackEnd.Repositories
         {
             try
             {
+                var res = new List<IftttKey>();
                 var remoteControllers = await context.RemoteControllers.Where(u => u.User.Id == Id).Select(s => s.Id).ToListAsync();
                 var pages = await context.Pages.Where(p => remoteControllers.Contains(p.RemoteController.Id)).Select(s => s.Id).ToListAsync();
                 var keys = await context.PageControls.Where(p => pages.Contains(p.PageID)).Select(s => s.Control.IftttKey).ToListAsync();
-                return keys;
+                foreach (var key in keys)
+                {
+                    if (!isAlreadySelected(key,res))
+                    {
+                        res.Add(key);
+                    }
+                }
+                return res;
             }catch (Exception ex)
             {
                 throw new GetKeysException(ex.Message);
@@ -46,6 +54,17 @@ namespace NextMindBackEnd.Repositories
         {
             var saved = context.SaveChanges();
             return saved>0? true : false;
+        }
+        private bool isAlreadySelected(IftttKey key, List<IftttKey> list)
+        {
+            foreach (var item in list)
+            {
+                if(item.Key == key.Key)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

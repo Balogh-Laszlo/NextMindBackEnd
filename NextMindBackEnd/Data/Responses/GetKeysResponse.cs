@@ -6,6 +6,6 @@ namespace NextMindBackEnd.Data.Responses
     {
         public int Code { get; set; }
         public string Message { get; set; } = string.Empty;
-        public List<string>? Keys { get; set; }
+        public List<Key>? Keys { get; set; }
     }
 }

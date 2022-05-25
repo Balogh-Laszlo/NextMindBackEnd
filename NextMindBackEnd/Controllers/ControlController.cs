@@ -17,7 +17,7 @@ namespace NextMindBackEnd.Controllers
             this.controlService = controlService;
         }
         [HttpPost("getControls")]
-        public async Task<ActionResult<GetControlsResponse>> GetControls(string Token)
+        public async Task<ActionResult<GetControlsResponse>> GetControls([FromForm]string Token)
         {
             try
             {

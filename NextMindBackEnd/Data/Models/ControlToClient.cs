@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string  URL { get; set; } = string.Empty;
-        public string IFTTTKey { get; set; } = String.Empty;
+        public Key? IFTTTKey { get; set; }
     }
 }
